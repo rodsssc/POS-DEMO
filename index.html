@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexaPOS — Modern Point of Sale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     LOGIN PAGE
+═══════════════════════════════════════════════════════════ -->
+    <div id="page-login" class="page active">
+        <div class="login-wrapper">
+            <div class="login-brand-panel">
+                <div class="brand-content">
+                    <div class="brand-logo">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <h1 class="brand-name">NexaPOS</h1>
+                    <p class="brand-tagline">Modern Point of Sale for Modern Business</p>
+                    <div class="brand-features">
+                        <div class="brand-feat"><i class="bi bi-check2-circle"></i> Real-time inventory sync</div>
+                        <div class="brand-feat"><i class="bi bi-check2-circle"></i> Multi-role access control</div>
+                        <div class="brand-feat"><i class="bi bi-check2-circle"></i> Cloud-based reports</div>
+                        <div class="brand-feat"><i class="bi bi-check2-circle"></i> Works on any device</div>
+                    </div>
+                </div>
+                <div class="brand-orb orb-1"></div>
+                <div class="brand-orb orb-2"></div>
+                <div class="brand-orb orb-3"></div>
+            </div>
+            <div class="login-form-panel">
+                <div class="login-form-inner">
+                    <div class="login-header">
+                        <h2>Welcome back</h2>
+                        <p>Sign in to your NexaPOS account</p>
+                    </div>
+
+                    <div class="demo-accounts">
+                        <p class="demo-label">Quick demo access:</p>
+                        <div class="demo-btns">
+                            <button class="demo-btn" onclick="quickLogin('admin')">
+              <i class="bi bi-shield-check"></i> Admin
+            </button>
+                            <button class="demo-btn" onclick="quickLogin('cashier')">
+              <i class="bi bi-person-badge"></i> Cashier
+            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"><span>or sign in manually</span></div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <div class="input-icon-wrap">
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input type="email" id="login-email" class="form-control custom-input" placeholder="admin@nexapos.com" />
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        <div class="input-icon-wrap">
+                            <i class="bi bi-lock input-icon"></i>
+                            <input type="password" id="login-password" class="form-control custom-input" placeholder="••••••••" />
+                            <button class="pw-toggle" onclick="togglePassword()" type="button"><i class="bi bi-eye" id="pw-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" />
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <button class="btn-login" onclick="handleLogin()">
+          <span>Sign In</span> <i class="bi bi-arrow-right"></i>
+        </button>
+                    <div id="login-error" class="login-error d-none">
+                        <i class="bi bi-exclamation-circle"></i> Invalid credentials. Try admin@nexapos.com / admin123
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     ADMIN LAYOUT WRAPPER
+═══════════════════════════════════════════════════════════ -->
+    <div id="page-admin" class="page d-none">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                    <span class="sidebar-brand">NexaPOS</span>
+                </div>
+                <button class="sidebar-close d-lg-none" onclick="toggleSidebar()"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <div class="sidebar-role-badge">
+                <i class="bi bi-shield-check"></i> Admin Panel
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Overview</div>
+                <a href="#" class="nav-item active" data-page="dashboard" onclick="switchAdminPage('dashboard', this)">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="#" class="nav-item" data-page="reports" onclick="switchAdminPage('reports', this)">
+                    <i class="bi bi-bar-chart-line"></i> <span>Sales Reports</span>
+                </a>
+
+                <div class="nav-section-label">Management</div>
+                <a href="#" class="nav-item" data-page="products" onclick="switchAdminPage('products', this)">
+                    <i class="bi bi-box-seam"></i> <span>Products</span>
+                </a>
+                <a href="#" class="nav-item" data-page="inventory" onclick="switchAdminPage('inventory', this)">
+                    <i class="bi bi-archive"></i> <span>Inventory</span>
+                    <span class="nav-badge warn">5</span>
+                </a>
+                <a href="#" class="nav-item" data-page="transactions" onclick="switchAdminPage('transactions', this)">
+                    <i class="bi bi-receipt"></i> <span>Transactions</span>
+                </a>
+                <a href="#" class="nav-item" data-page="employees" onclick="switchAdminPage('employees', this)">
+                    <i class="bi bi-people"></i> <span>Employees</span>
+                </a>
+
+                <div class="nav-section-label">System</div>
+                <a href="#" class="nav-item" data-page="settings" onclick="switchAdminPage('settings', this)">
+                    <i class="bi bi-gear"></i> <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchToCashier()">
+                    <i class="bi bi-cash-register"></i> <span>POS Terminal</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-pill">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <div class="user-name">Alex Rivera</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()" title="Logout"><i class="bi bi-box-arrow-right"></i></button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-wrapper" id="main-wrapper">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="topbar-menu-btn" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+                    <div class="topbar-title" id="topbar-title">Dashboard</div>
+                </div>
+                <div class="topbar-right">
+                    <button class="topbar-icon-btn" onclick="toggleTheme()" title="Toggle theme">
+          <i class="bi bi-moon-stars" id="theme-icon"></i>
+        </button>
+                    <button class="topbar-icon-btn position-relative" onclick="showNotifications()">
+          <i class="bi bi-bell"></i>
+          <span class="notif-dot"></span>
+        </button>
+                    <div class="topbar-avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Admin Pages Container -->
+            <div class="admin-content" id="admin-content">
+
+                <!-- ─────── DASHBOARD PAGE ─────── -->
+                <section id="admin-dashboard" class="admin-page active">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Good morning, Alex 👋</h2>
+                            <p class="page-subtitle">Here's what's happening with your store today.</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-outline-custom" onclick="showToast('Report exported!','success')"><i class="bi bi-download"></i> Export</button>
+                            <button class="btn-primary-custom"><i class="bi bi-plus-lg"></i> New Sale</button>
+                        </div>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-6 col-xl-3">
+                            <div class="kpi-card kpi-revenue">
+                                <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+                                <div class="kpi-body">
+                                    <div class="kpi-label">Today's Revenue</div>
+                                    <div class="kpi-value">₱24,580</div>
+                                    <div class="kpi-change up"><i class="bi bi-arrow-up-right"></i> 12.4% vs yesterday</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="kpi-card kpi-orders">
+                                <div class="kpi-icon"><i class="bi bi-bag-check"></i></div>
+                                <div class="kpi-body">
+                                    <div class="kpi-label">Total Orders</div>
+                                    <div class="kpi-value">347</div>
+                                    <div class="kpi-change up"><i class="bi bi-arrow-up-right"></i> 8.1% vs yesterday</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="kpi-card kpi-items">
+                                <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+                                <div class="kpi-body">
+                                    <div class="kpi-label">Items Sold</div>
+                                    <div class="kpi-value">1,204</div>
+                                    <div class="kpi-change down"><i class="bi bi-arrow-down-right"></i> 2.3% vs yesterday</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="kpi-card kpi-customers">
+                                <div class="kpi-icon"><i class="bi bi-people"></i></div>
+                                <div class="kpi-body">
+                                    <div class="kpi-label">Customers</div>
+                                    <div class="kpi-value">89</div>
+                                    <div class="kpi-change up"><i class="bi bi-arrow-up-right"></i> 5.7% vs yesterday</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-lg-8">
+                            <div class="chart-card">
+                                <div class="chart-card-header">
+                                    <div>
+                                        <div class="chart-title">Revenue Overview</div>
+                                        <div class="chart-subtitle">Last 7 days performance</div>
+                                    </div>
+                                    <div class="chart-period-tabs">
+                                        <button class="period-btn active">7D</button>
+                                        <button class="period-btn">30D</button>
+                                        <button class="period-btn">90D</button>
+                                    </div>
+                                </div>
+                                <div class="chart-area">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="chart-card">
+                                <div class="chart-card-header">
+                                    <div>
+                                        <div class="chart-title">Sales by Category</div>
+                                        <div class="chart-subtitle">This month</div>
+                                    </div>
+                                </div>
+                                <div class="chart-area donut-area">
+                                    <canvas id="categoryChart"></canvas>
+                                </div>
+                                <div class="donut-legend" id="donut-legend"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row -->
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-8">
+                            <div class="data-card">
+                                <div class="data-card-header">
+                                    <div class="data-card-title">Recent Transactions</div>
+                                    <a href="#" class="data-card-link" onclick="switchAdminPage('transactions', null)">View all <i class="bi bi-arrow-right"></i></a>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Transaction ID</th>
+                                                <th>Customer</th>
+                                                <th>Items</th>
+                                                <th>Amount</th>
+                                                <th>Method</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recent-transactions-body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="data-card mb-4">
+                                <div class="data-card-header">
+                                    <div class="data-card-title">Top Products</div>
+                                </div>
+                                <div id="top-products-list"></div>
+                            </div>
+                            <div class="data-card inventory-alert-card">
+                                <div class="data-card-header">
+                                    <div class="data-card-title"><i class="bi bi-exclamation-triangle text-warning me-1"></i> Inventory Alerts</div>
+                                </div>
+                                <div id="inventory-alerts-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────── REPORTS PAGE ─────── -->
+                <section id="admin-reports" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Sales Reports</h2>
+                            <p class="page-subtitle">Analyze your business performance</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-outline-custom"><i class="bi bi-calendar3"></i> Date Range</button>
+                            <button class="btn-primary-custom" onclick="showToast('Report downloaded!','success')"><i class="bi bi-download"></i> Download PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-6 col-md-3">
+                            <div class="report-stat-card">
+                                <div class="rs-label">Total Revenue</div>
+                                <div class="rs-value">₱892,450</div>
+                                <div class="rs-period">This month</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="report-stat-card">
+                                <div class="rs-label">Net Profit</div>
+                                <div class="rs-value">₱312,890</div>
+                                <div class="rs-period">This month</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="report-stat-card">
+                                <div class="rs-label">Avg Order Value</div>
+                                <div class="rs-value">₱2,571</div>
+                                <div class="rs-period">This month</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="report-stat-card">
+                                <div class="rs-label">Total Transactions</div>
+                                <div class="rs-value">4,820</div>
+                                <div class="rs-period">This month</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-12">
+                            <div class="chart-card">
+                                <div class="chart-card-header">
+                                    <div class="chart-title">Monthly Revenue Trend</div>
+                                </div>
+                                <div class="chart-area" style="height:280px;">
+                                    <canvas id="monthlyChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+                            <div class="chart-card">
+                                <div class="chart-card-header">
+                                    <div class="chart-title">Sales by Payment Method</div>
+                                </div>
+                                <div class="chart-area" style="height:220px;"><canvas id="paymentChart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="chart-card">
+                                <div class="chart-card-header">
+                                    <div class="chart-title">Hourly Sales Pattern</div>
+                                </div>
+                                <div class="chart-area" style="height:220px;"><canvas id="hourlyChart"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────── PRODUCTS PAGE ─────── -->
+                <section id="admin-products" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Product Management</h2>
+                            <p class="page-subtitle">Manage your product catalog</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-outline-custom" onclick="showToast('Importing products...','info')"><i class="bi bi-upload"></i> Import</button>
+                            <button class="btn-primary-custom" onclick="openProductModal()"><i class="bi bi-plus-lg"></i> Add Product</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar mb-4">
+                        <div class="search-wrap">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="filter-input" placeholder="Search products..." id="product-search" oninput="filterProducts()" />
+                        </div>
+                        <select class="filter-select" id="product-cat-filter" onchange="filterProducts()">
+            <option value="">All Categories</option>
+            <option>Beverages</option>
+            <option>Snacks</option>
+            <option>Dairy</option>
+            <option>Bakery</option>
+            <option>Personal Care</option>
+          </select>
+                        <select class="filter-select">
+            <option>All Status</option>
+            <option>In Stock</option>
+            <option>Low Stock</option>
+            <option>Out of Stock</option>
+          </select>
+                    </div>
+
+                    <div class="data-card">
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>SKU</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────── INVENTORY PAGE ─────── -->
+                <section id="admin-inventory" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Inventory Management</h2>
+                            <p class="page-subtitle">Track stock levels and restocking needs</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-primary-custom" onclick="showToast('Purchase order created!','success')"><i class="bi bi-plus-lg"></i> Purchase Order</button>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-6 col-md-3">
+                            <div class="inv-stat-card">
+                                <i class="bi bi-box-seam inv-icon"></i>
+                                <div class="inv-stat-val">1,248</div>
+                                <div class="inv-stat-label">Total SKUs</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="inv-stat-card warn">
+                                <i class="bi bi-exclamation-triangle inv-icon"></i>
+                                <div class="inv-stat-val">24</div>
+                                <div class="inv-stat-label">Low Stock</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="inv-stat-card danger">
+                                <i class="bi bi-x-circle inv-icon"></i>
+                                <div class="inv-stat-val">8</div>
+                                <div class="inv-stat-label">Out of Stock</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="inv-stat-card success">
+                                <i class="bi bi-truck inv-icon"></i>
+                                <div class="inv-stat-val">3</div>
+                                <div class="inv-stat-label">Orders Pending</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="data-card">
+                        <div class="data-card-header">
+                            <div class="data-card-title">Stock Levels</div>
+                            <div class="search-wrap sm">
+                                <i class="bi bi-search"></i>
+                                <input type="text" class="filter-input" placeholder="Search inventory..." />
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th>Current Stock</th>
+                                        <th>Min. Stock</th>
+                                        <th>Stock Level</th>
+                                        <th>Last Restocked</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventory-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────── TRANSACTIONS PAGE ─────── -->
+                <section id="admin-transactions" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Transaction History</h2>
+                            <p class="page-subtitle">Complete record of all sales</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-outline-custom" onclick="showToast('Exported to CSV!','success')"><i class="bi bi-file-earmark-spreadsheet"></i> Export CSV</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-bar mb-4">
+                        <div class="search-wrap">
+                            <i class="bi bi-search"></i>
+                            <input type="text" class="filter-input" placeholder="Search transactions..." />
+                        </div>
+                        <select class="filter-select">
+            <option>All Methods</option>
+            <option>Cash</option>
+            <option>Card</option>
+            <option>GCash</option>
+            <option>Maya</option>
+          </select>
+                        <input type="date" class="filter-select" />
+                    </div>
+
+                    <div class="data-card">
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Trans. ID</th>
+                                        <th>Date & Time</th>
+                                        <th>Cashier</th>
+                                        <th>Items</th>
+                                        <th>Subtotal</th>
+                                        <th>Discount</th>
+                                        <th>Total</th>
+                                        <th>Method</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactions-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────── EMPLOYEES PAGE ─────── -->
+                <section id="admin-employees" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Employee Management</h2>
+                            <p class="page-subtitle">Manage staff and access roles</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn-primary-custom" onclick="openEmployeeModal()"><i class="bi bi-person-plus"></i> Add Employee</button>
+                        </div>
+                    </div>
+
+                    <div class="row g-4" id="employee-cards"></div>
+                </section>
+
+                <!-- ─────── SETTINGS PAGE ─────── -->
+                <section id="admin-settings" class="admin-page">
+                    <div class="page-header">
+                        <div>
+                            <h2 class="page-title">Settings</h2>
+                            <p class="page-subtitle">Configure your POS system</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-3">
+                            <div class="settings-nav" id="settings-tabs">
+                                <button class="settings-tab active" onclick="switchSettings('store', this)"><i class="bi bi-shop"></i> Store Info</button>
+                                <button class="settings-tab" onclick="switchSettings('receipt', this)"><i class="bi bi-receipt"></i> Receipt</button>
+                                <button class="settings-tab" onclick="switchSettings('payment', this)"><i class="bi bi-credit-card"></i> Payment</button>
+                                <button class="settings-tab" onclick="switchSettings('tax', this)"><i class="bi bi-percent"></i> Tax & Fees</button>
+                                <button class="settings-tab" onclick="switchSettings('notifications', this)"><i class="bi bi-bell"></i> Notifications</button>
+                                <button class="settings-tab" onclick="switchSettings('security', this)"><i class="bi bi-shield-lock"></i> Security</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-9">
+
+                            <!-- Store Info -->
+                            <div class="settings-panel active" id="settings-store">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <div class="data-card-title">Store Information</div>
+                                    </div>
+                                    <div class="settings-form">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Business Name</label>
+                                                <input type="text" class="form-control custom-input" value="NexaPOS Demo Store" />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Business Type</label>
+                                                <select class="form-control custom-input">
+                        <option>Retail / Grocery</option>
+                        <option>Café / Restaurant</option>
+                        <option>Pharmacy</option>
+                        <option>Laundry</option>
+                      </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Address</label>
+                                                <input type="text" class="form-control custom-input" value="123 Main Street, Davao City, Philippines" />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Phone</label>
+                                                <input type="text" class="form-control custom-input" value="+63 912 345 6789" />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Currency</label>
+                                                <select class="form-control custom-input">
+                        <option>PHP — Philippine Peso (₱)</option>
+                        <option>USD — US Dollar ($)</option>
+                        <option>EUR — Euro (€)</option>
+                      </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn-primary-custom" onclick="showToast('Settings saved!','success')"><i class="bi bi-check2"></i> Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Receipt -->
+                            <div class="settings-panel" id="settings-receipt">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <div class="data-card-title">Receipt Configuration</div>
+                                    </div>
+                                    <div class="settings-form">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label">Receipt Header</label>
+                                                <textarea class="form-control custom-input" rows="2">Thank you for shopping at NexaPOS Demo Store!</textarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Receipt Footer</label>
+                                                <textarea class="form-control custom-input" rows="2">Please come again. Have a great day!</textarea>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Print Format</label>
+                                                <select class="form-control custom-input">
+                        <option>80mm Thermal</option>
+                        <option>58mm Thermal</option>
+                        <option>A4 Paper</option>
+                      </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="autoprint" checked />
+                                                    <label class="form-check-label" for="autoprint">Auto-print receipt after transaction</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn-primary-custom" onclick="showToast('Receipt settings saved!','success')"><i class="bi bi-check2"></i> Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment -->
+                            <div class="settings-panel" id="settings-payment">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <div class="data-card-title">Payment Methods</div>
+                                    </div>
+                                    <div class="settings-form">
+                                        <div class="payment-method-toggles">
+                                            <div class="pm-row">
+                                                <div class="pm-info"><i class="bi bi-cash"></i> Cash</div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+                                            </div>
+                                            <div class="pm-row">
+                                                <div class="pm-info"><i class="bi bi-credit-card"></i> Credit / Debit Card</div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+                                            </div>
+                                            <div class="pm-row">
+                                                <div class="pm-info"><i class="bi bi-phone"></i> GCash</div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+                                            </div>
+                                            <div class="pm-row">
+                                                <div class="pm-info"><i class="bi bi-phone-fill"></i> Maya</div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+                                            </div>
+                                            <div class="pm-row">
+                                                <div class="pm-info"><i class="bi bi-qr-code"></i> QR Code</div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" /></div>
+                                            </div>
+                                        </div>
+                                        <button class="btn-primary-custom mt-3" onclick="showToast('Payment settings saved!','success')"><i class="bi bi-check2"></i> Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tax -->
+                            <div class="settings-panel" id="settings-tax">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <div class="data-card-title">Tax & Fees Configuration</div>
+                                    </div>
+                                    <div class="settings-form">
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">VAT Rate (%)</label>
+                                                <input type="number" class="form-control custom-input" value="12" />
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label class="form-label">Service Charge (%)</label>
+                                                <input type="number" class="form-control custom-input" value="0" />
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="vatinclusive" checked />
+                                                    <label class="form-check-label" for="vatinclusive">Prices are VAT-inclusive</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn-primary-custom" onclick="showToast('Tax settings saved!','success')"><i class="bi bi-check2"></i> Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notifications -->
+                            <div class="settings-panel" id="settings-notifications">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <div class="data-card-title">Notification Preferences</div>
+                                    </div>
+                                    <div class="settings-form">
+                                        <div class="notif-toggles">
+                                            <div class="notif-row">
+                                                <div>
+                                                    <div class="notif-title">Low Stock Alerts</div>
+                                                    <div class="notif-desc">Get notified when items are running low</div>
+                                                </div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+                                            </div>
+                                            <div class="notif-row">
+                                                <div>
+                                                    <div class="notif-title">Daily Sales Summary</div>
+                                                    <div class="notif-desc">Receive end-of-day reports</div>
+                                                </div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+                                            </div>
+                                            <div class="notif-row">
+                                                <div>
+                                                    <div class="notif-title">Large Transaction Alerts</div>
+                                                    <div class="notif-desc">Notify on transactions over ₱10,000</div>
+                                                </div>
+                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" /></div>
+                                            </div>
+                                        </div>
+                                        <button class="btn-primary-custom mt-3" onclick="showToast('Notification settings saved!','success')"><i class="bi bi-check2"></i> Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Security -->
+                            <div class="settings-panel" id="settings-security">
+                                <div class="data-card">
+                                    <div class="data-card-header">
+                                        <div class="data-card-title">Security Settings</div>
+                                    </div>
+                                    <div class="settings-form">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label class="form-label">Current Password</label>
+                                                <input type="password" class="form-control custom-input" placeholder="••••••••" />
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">New Password</label>
+                                                <input type="password" class="form-control custom-input" placeholder="••••••••" />
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">Confirm New Password</label>
+                                                <input type="password" class="form-control custom-input" placeholder="••••••••" />
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="2fa" />
+                                                    <label class="form-check-label" for="2fa">Enable two-factor authentication</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button class="btn-primary-custom" onclick="showToast('Password updated!','success')"><i class="bi bi-check2"></i> Update Password</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <!-- /admin-content -->
+
+            <!-- Mobile Bottom Navigation (Admin) -->
+            <nav class="mobile-bottom-nav d-lg-none" id="admin-bottom-nav">
+                <a href="#" class="mobile-nav-item active" onclick="switchAdminPage('dashboard',null);setMobileActive(this)">
+                    <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+                </a>
+                <a href="#" class="mobile-nav-item" onclick="switchAdminPage('products',null);setMobileActive(this)">
+                    <i class="bi bi-box-seam"></i><span>Products</span>
+                </a>
+                <a href="#" class="mobile-nav-item pos-btn" onclick="switchToCashier()">
+                    <div class="pos-circle"><i class="bi bi-cash-register"></i></div>
+                    <span>POS</span>
+                </a>
+                <a href="#" class="mobile-nav-item" onclick="switchAdminPage('reports',null);setMobileActive(this)">
+                    <i class="bi bi-bar-chart-line"></i><span>Reports</span>
+                </a>
+                <a href="#" class="mobile-nav-item" onclick="switchAdminPage('settings',null);setMobileActive(this)">
+                    <i class="bi bi-gear"></i><span>Settings</span>
+                </a>
+            </nav>
+
+        </div>
+        <!-- /main-wrapper -->
+    </div>
+    <!-- /page-admin -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+     CASHIER / POS PAGE
+═══════════════════════════════════════════════════════════ -->
+    <div id="page-cashier" class="page d-none">
+        <div class="pos-layout">
+
+            <!-- POS Sidebar -->
+            <div class="pos-sidebar">
+                <div class="pos-sidebar-header">
+                    <div class="pos-brand">
+                        <i class="bi bi-lightning-charge-fill"></i> NexaPOS
+                    </div>
+                    <button class="pos-back-btn" onclick="switchToAdmin()" title="Back to Admin">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+                </div>
+                <div class="pos-cashier-info">
+                    <div class="pos-avatar">M</div>
+                    <div>
+                        <div class="pos-cashier-name">Maria Santos</div>
+                        <div class="pos-cashier-role">Cashier · Register 01</div>
+                    </div>
+                </div>
+                <div class="pos-quick-nav">
+                    <button class="pos-nav-btn active" onclick="setPosCategory('all',this)"><i class="bi bi-grid-fill"></i> All Items</button>
+                    <button class="pos-nav-btn" onclick="setPosCategory('Beverages',this)"><i class="bi bi-cup-hot"></i> Beverages</button>
+                    <button class="pos-nav-btn" onclick="setPosCategory('Snacks',this)"><i class="bi bi-basket"></i> Snacks</button>
+                    <button class="pos-nav-btn" onclick="setPosCategory('Dairy',this)"><i class="bi bi-droplet"></i> Dairy</button>
+                    <button class="pos-nav-btn" onclick="setPosCategory('Bakery',this)"><i class="bi bi-egg-fried"></i> Bakery</button>
+                    <button class="pos-nav-btn" onclick="setPosCategory('Personal Care',this)"><i class="bi bi-heart-pulse"></i> Personal Care</button>
+                </div>
+                <div class="pos-sidebar-footer">
+                    <button class="pos-footer-btn" onclick="toggleTheme()"><i class="bi bi-moon-stars"></i></button>
+                    <button class="pos-footer-btn" onclick="showToast('Shift ended','info')"><i class="bi bi-box-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- POS Products Area -->
+            <div class="pos-products-area">
+                <div class="pos-topbar">
+                    <div class="pos-search-wrap">
+                        <i class="bi bi-search"></i>
+                        <input type="text" id="pos-search" class="pos-search-input" placeholder="Search products by name or barcode..." oninput="filterPosProducts()" />
+                        <button class="pos-barcode-btn" onclick="showToast('Barcode scanner ready','info')"><i class="bi bi-upc-scan"></i></button>
+                    </div>
+                    <div class="pos-topbar-info">
+                        <span class="pos-time" id="pos-time"></span>
+                        <button class="topbar-icon-btn" onclick="showNotifications()">
+            <i class="bi bi-bell"></i><span class="notif-dot"></span>
+          </button>
+                    </div>
+                </div>
+
+                <div class="pos-category-strip" id="pos-category-strip">
+                    <button class="cat-chip active" onclick="setPosCategory('all',this)">All</button>
+                    <button class="cat-chip" onclick="setPosCategory('Beverages',this)">Beverages</button>
+                    <button class="cat-chip" onclick="setPosCategory('Snacks',this)">Snacks</button>
+                    <button class="cat-chip" onclick="setPosCategory('Dairy',this)">Dairy</button>
+                    <button class="cat-chip" onclick="setPosCategory('Bakery',this)">Bakery</button>
+                    <button class="cat-chip" onclick="setPosCategory('Personal Care',this)">Personal Care</button>
+                </div>
+
+                <div class="pos-product-grid" id="pos-product-grid"></div>
+            </div>
+
+            <!-- POS Cart Panel -->
+            <div class="pos-cart-panel" id="pos-cart-panel">
+                <div class="cart-header">
+                    <div class="cart-title"><i class="bi bi-cart3"></i> Current Order</div>
+                    <div class="cart-trans-id">TXN-<span id="cart-txn-id">00247</span></div>
+                </div>
+
+                <div class="cart-customer-bar">
+                    <i class="bi bi-person"></i>
+                    <input type="text" class="cart-customer-input" placeholder="Walk-in Customer (optional)" />
+                </div>
+
+                <div class="cart-items-wrap" id="cart-items-wrap">
+                    <div class="cart-empty" id="cart-empty">
+                        <i class="bi bi-cart-x"></i>
+                        <p>No items in cart</p>
+                        <span>Tap products to add them</span>
+                    </div>
+                    <div id="cart-items-list"></div>
+                </div>
+
+                <div class="cart-discount-bar">
+                    <div class="discount-label"><i class="bi bi-tag"></i> Discount</div>
+                    <div class="discount-controls">
+                        <button class="disc-btn" onclick="applyDiscount(5)">5%</button>
+                        <button class="disc-btn" onclick="applyDiscount(10)">10%</button>
+                        <button class="disc-btn" onclick="applyDiscount(20)">20%</button>
+                        <div class="disc-custom-wrap">
+                            <input type="number" id="custom-discount" class="disc-custom-input" placeholder="%" min="0" max="100" oninput="applyDiscount(this.value)" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">₱0.00</span></div>
+                    <div class="summary-row discount-row"><span>Discount (<span id="disc-pct">0</span>%)</span><span id="cart-discount">-₱0.00</span></div>
+                    <div class="summary-row"><span>VAT (12%)</span><span id="cart-vat">₱0.00</span></div>
+                    <div class="summary-row total-row"><span>TOTAL</span><span id="cart-total">₱0.00</span></div>
+                </div>
+
+                <div class="payment-methods-grid">
+                    <button class="pay-method-btn active" data-method="Cash" onclick="selectPayMethod('Cash',this)"><i class="bi bi-cash"></i> Cash</button>
+                    <button class="pay-method-btn" data-method="Card" onclick="selectPayMethod('Card',this)"><i class="bi bi-credit-card"></i> Card</button>
+                    <button class="pay-method-btn" data-method="GCash" onclick="selectPayMethod('GCash',this)"><i class="bi bi-phone"></i> GCash</button>
+                    <button class="pay-method-btn" data-method="Maya" onclick="selectPayMethod('Maya',this)"><i class="bi bi-phone-fill"></i> Maya</button>
+                </div>
+
+                <div class="cash-tendered-wrap" id="cash-tendered-wrap">
+                    <label class="form-label">Cash Tendered</label>
+                    <input type="number" id="cash-tendered" class="form-control custom-input" placeholder="0.00" oninput="calcChange()" />
+                    <div class="change-display" id="change-display">Change: ₱0.00</div>
+                    <div class="quick-cash-btns">
+                        <button class="quick-cash" onclick="setTendered(20)">₱20</button>
+                        <button class="quick-cash" onclick="setTendered(50)">₱50</button>
+                        <button class="quick-cash" onclick="setTendered(100)">₱100</button>
+                        <button class="quick-cash" onclick="setTendered(200)">₱200</button>
+                        <button class="quick-cash" onclick="setTendered(500)">₱500</button>
+                        <button class="quick-cash" onclick="setTendered('exact')">Exact</button>
+                    </div>
+                </div>
+
+                <div class="cart-action-btns">
+                    <button class="btn-clear-cart" onclick="clearCart()"><i class="bi bi-trash3"></i> Clear</button>
+                    <button class="btn-checkout" onclick="processPayment()"><i class="bi bi-check-circle"></i> Charge — <span id="checkout-total">₱0.00</span></button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Mobile Cart Toggle (for mobile) -->
+        <div class="mobile-cart-fab d-lg-none" id="mobile-cart-fab" onclick="toggleMobileCart()">
+            <i class="bi bi-cart3"></i>
+            <span class="cart-count-badge" id="cart-count-badge">0</span>
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════════════════════ -->
+
+    <!-- Receipt Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content receipt-modal">
+                <div class="modal-header receipt-modal-header">
+                    <h5 class="modal-title">Transaction Complete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="receipt-body">
+                    <div class="receipt-paper" id="receipt-paper">
+                        <div class="receipt-store-name">NexaPOS Demo Store</div>
+                        <div class="receipt-store-addr">123 Main Street, Davao City</div>
+                        <div class="receipt-divider">- - - - - - - - - - - - - - - - - - - - -</div>
+                        <div class="receipt-meta">
+                            <span>Trans. #: <strong id="r-txn"></strong></span>
+                            <span>Date: <strong id="r-date"></strong></span>
+                            <span>Cashier: <strong>Maria Santos</strong></span>
+                            <span>Method: <strong id="r-method"></strong></span>
+                        </div>
+                        <div class="receipt-divider">- - - - - - - - - - - - - - - - - - - - -</div>
+                        <div id="receipt-items"></div>
+                        <div class="receipt-divider">- - - - - - - - - - - - - - - - - - - - -</div>
+                        <div class="receipt-totals">
+                            <div class="receipt-total-row"><span>Subtotal</span><span id="r-subtotal"></span></div>
+                            <div class="receipt-total-row"><span>Discount</span><span id="r-discount"></span></div>
+                            <div class="receipt-total-row"><span>VAT (12%)</span><span id="r-vat"></span></div>
+                            <div class="receipt-total-row receipt-grand"><span>TOTAL</span><span id="r-total"></span></div>
+                            <div class="receipt-total-row"><span>Cash Tendered</span><span id="r-tendered"></span></div>
+                            <div class="receipt-total-row"><span>Change</span><span id="r-change"></span></div>
+                        </div>
+                        <div class="receipt-divider">- - - - - - - - - - - - - - - - - - - - -</div>
+                        <div class="receipt-footer">Thank you for shopping at NexaPOS Demo Store!</div>
+                        <div class="receipt-footer">Please come again 😊</div>
+                        <div class="receipt-barcode">||| ||| || | ||| ||| || |</div>
+                    </div>
+                </div>
+                <div class="modal-footer receipt-modal-footer">
+                    <button class="btn-outline-custom" data-bs-dismiss="modal">Close</button>
+                    <button class="btn-outline-custom" onclick="showToast('Sending receipt via email...','info')"><i class="bi bi-envelope"></i> Email</button>
+                    <button class="btn-primary-custom" onclick="printReceipt()"><i class="bi bi-printer"></i> Print Receipt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="product-modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control custom-input" placeholder="e.g. Coca Cola 330ml" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">SKU / Barcode</label>
+                            <input type="text" class="form-control custom-input" placeholder="e.g. SKU-001" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Category</label>
+                            <select class="form-control custom-input">
+              <option>Beverages</option><option>Snacks</option><option>Dairy</option><option>Bakery</option><option>Personal Care</option>
+            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Selling Price (₱)</label>
+                            <input type="number" class="form-control custom-input" placeholder="0.00" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Cost Price (₱)</label>
+                            <input type="number" class="form-control custom-input" placeholder="0.00" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Initial Stock</label>
+                            <input type="number" class="form-control custom-input" placeholder="0" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn-primary-custom" onclick="saveProduct()"><i class="bi bi-check2"></i> Save Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Modal -->
+    <div class="modal fade" id="employeeModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control custom-input" placeholder="Full name" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control custom-input" placeholder="email@company.com" />
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">Role</label>
+                            <select class="form-control custom-input">
+              <option>Cashier</option><option>Supervisor</option><option>Admin</option>
+            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label">PIN Code</label>
+                            <input type="number" class="form-control custom-input" placeholder="4-digit PIN" maxlength="4" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn-primary-custom" onclick="saveEmployee()"><i class="bi bi-check2"></i> Add Employee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notif-panel" id="notif-panel">
+        <div class="notif-panel-header">
+            <div class="notif-panel-title">Notifications</div>
+            <button class="notif-close" onclick="hideNotifications()"><i class="bi bi-x"></i></button>
+        </div>
+        <div class="notif-list" id="notif-list"></div>
+    </div>
+    <div class="notif-overlay" id="notif-overlay" onclick="hideNotifications()"></div>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay d-lg-none" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
